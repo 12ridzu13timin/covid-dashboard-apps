@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 
 # Load data
-df = pd.read_csv("covid_data.csv")
+df = pd.read_csv("data,covid.csv")
 
 # Basic cleaning and ensuring correct data types
-df['year'] = df['year'].astype(int)
+df['date'] = df['date'].astype(int)
 df['cases_new'] = pd.to_numeric(df['cases_new'], errors='coerce')
 df['deaths_new'] = pd.to_numeric(df['deaths_new'], errors='coerce')
 
@@ -21,7 +21,7 @@ selected_year = st.sidebar.selectbox("Select a year", sorted(df['year'].unique()
 state_df = df[df['state'] == selected_state]
 
 # Forecasting
-X = state_df[['year']]
+X = state_df[['date']]
 y = state_df['cases_new']
 model = LinearRegression()
 model.fit(X, y)
@@ -49,7 +49,7 @@ st.pyplot(fig)
 
 # Pie chart of % cases per state for selected year
 st.subheader(f"🥧 Case Distribution by State in {selected_year}")
-year_df = df[df['year'] == selected_year]
+year_df = df[df['date'] == selected_year]
 cases_per_state = year_df.groupby('state')['cases_new'].sum()
 fig2, ax2 = plt.subplots()
 ax2.pie(cases_per_state, labels=cases_per_state.index, autopct='%1.1f%%', startangle=90)
@@ -58,10 +58,10 @@ st.pyplot(fig2)
 
 # Bar chart of deaths per year for selected state
 st.subheader(f"📊 Deaths in {selected_state} by Year")
-deaths_by_year = state_df.groupby('year')['deaths_new'].sum()
+deaths_by_year = state_df.groupby('date')['deaths_new'].sum()
 fig3, ax3 = plt.subplots()
 ax3.bar(deaths_by_year.index, deaths_by_year.values, color='red')
-ax3.set_xlabel("Year")
+ax3.set_xlabel("date")
 ax3.set_ylabel("Deaths")
 st.pyplot(fig3)
 
