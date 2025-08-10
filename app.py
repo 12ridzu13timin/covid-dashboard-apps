@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 # ===========================
 # Load & clean data
 # ===========================
-df = pd.read_xlsx("covidnewdata-2020-2022.xlsx")  
+df = pd.read_excel("covidnewdata-2020-2022.xlsx")
 df.columns = df.columns.str.strip()
 
 # Convert date column to datetime
